@@ -61,25 +61,7 @@ export default function PaymentMethodsPage() {
       </header>
 
       <AnimatePresence mode="wait">
-        {showForm ? (
-          <motion.div
-            key="form"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <CardForm
-              card={editingIndex !== null ? cards[editingIndex] : null}
-              onCancel={() => setShowForm(false)}
-              onSave={(card) => handleSave(card, editingIndex)}
-              onDelete={
-                editingIndex !== null
-                  ? () => handleDelete(editingIndex)
-                  : undefined
-              }
-            />
-          </motion.div>
-        ) : (
+        {!showForm && (
           <motion.div
             key="list"
             initial={{ opacity: 0 }}
@@ -93,6 +75,40 @@ export default function PaymentMethodsPage() {
                 setShowForm(true);
               }}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal Layer */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            key="form-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex justify-center items-end"
+            onClick={() => setShowForm(false)}
+          >
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="w-full max-w-xl bg-white rounded-t-2xl p-6 shadow-xl"
+            >
+              <CardForm
+                card={editingIndex !== null ? cards[editingIndex] : null}
+                onCancel={() => setShowForm(false)}
+                onSave={(card) => handleSave(card, editingIndex)}
+                onDelete={
+                  editingIndex !== null
+                    ? () => handleDelete(editingIndex)
+                    : undefined
+                }
+              />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
