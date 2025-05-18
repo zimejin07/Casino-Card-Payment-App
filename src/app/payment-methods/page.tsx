@@ -1,38 +1,39 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import CardList from './components/CardList'
-import CardForm from './components/CardForm'
-import { CardData } from './types'
-import useCards from './hooks/useCards'
+import { useEffect, useState } from "react";
+import CardList from "./components/CardList";
+import CardForm from "./components/CardForm";
+import { CardData } from "./types";
+import useCards from "./hooks/useCards";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function PaymentMethodsPage() {
-  const { cards, fetchCards, createCard, updateCard, deleteCard } = useCards()
-  const [editingIndex, setEditingIndex] = useState<number | null>(null)
-  const [showForm, setShowForm] = useState(false)
+  const { cards, fetchCards, createCard, updateCard, deleteCard } = useCards();
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    fetchCards()
-  }, [])
+    fetchCards();
+  }, []);
 
   const handleAdd = () => {
-    setEditingIndex(null)
-    setShowForm(true)
-  }
+    setEditingIndex(null);
+    setShowForm(true);
+  };
 
   const handleSave = async (card: CardData, index: number | null) => {
     if (index !== null) {
-      await updateCard(cards[index].id!, card)
+      await updateCard(cards[index].id!, card);
     } else {
-      await createCard(card)
+      await createCard(card);
     }
-    setShowForm(false)
-  }
+    setShowForm(false);
+  };
 
   const handleDelete = async (index: number) => {
-    await deleteCard(cards[index].id!)
-    setShowForm(false)
-  }
+    await deleteCard(cards[index].id!);
+    setShowForm(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] px-4 py-8 max-w-4xl mx-auto font-sans">
@@ -46,19 +47,42 @@ export default function PaymentMethodsPage() {
         </button>
       </header>
 
-      {showForm ? (
-        <CardForm
-          card={editingIndex !== null ? cards[editingIndex] : null}
-          onCancel={() => setShowForm(false)}
-          onSave={(card) => handleSave(card, editingIndex)}
-          onDelete={editingIndex !== null ? () => handleDelete(editingIndex) : undefined}
-        />
-      ) : (
-        <CardList cards={cards} onEdit={(i) => {
-          setEditingIndex(i)
-          setShowForm(true)
-        }} />
-      )}
+      <AnimatePresence mode="wait">
+        {showForm ? (
+          <motion.div
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <CardForm
+              card={editingIndex !== null ? cards[editingIndex] : null}
+              onCancel={() => setShowForm(false)}
+              onSave={(card) => handleSave(card, editingIndex)}
+              onDelete={
+                editingIndex !== null
+                  ? () => handleDelete(editingIndex)
+                  : undefined
+              }
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="list"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <CardList
+              cards={cards}
+              onEdit={(i) => {
+                setEditingIndex(i);
+                setShowForm(true);
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-  )
+  );
 }
