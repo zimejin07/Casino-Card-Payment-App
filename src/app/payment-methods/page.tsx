@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import CardList from "./components/CardList";
 import CardForm from "./components/CardForm";
 import { CardData } from "./types";
@@ -48,6 +48,20 @@ export default function PaymentMethodsPage() {
     }
   };
 
+  // Close modal with ESC key
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setShowForm(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showForm) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [showForm, handleKeyDown]);
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] px-4 py-8 max-w-4xl mx-auto font-sans">
       <header className="flex justify-between items-center mb-8">
@@ -79,7 +93,7 @@ export default function PaymentMethodsPage() {
         )}
       </AnimatePresence>
 
-      {/* Modal Layer */}
+      {/* Modal Overlay */}
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -97,6 +111,12 @@ export default function PaymentMethodsPage() {
               exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="w-full max-w-xl bg-white rounded-t-2xl p-6 shadow-xl"
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 100 }}
+              dragElastic={0.2}
+              onDragEnd={(event, info) => {
+                if (info.offset.y > 100) setShowForm(false);
+              }}
             >
               <CardForm
                 card={editingIndex !== null ? cards[editingIndex] : null}
