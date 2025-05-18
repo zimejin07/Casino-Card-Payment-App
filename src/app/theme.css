@@ -1,0 +1,53 @@
+/* src/styles/theme.css */
+
+@import "tailwindcss";
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply text-white px-4 py-3 rounded-full font-medium transition-colors;
+    background-color: var(--casumo-purple);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--casumo-purple-dark);
+  }
+
+  .btn-danger {
+    @apply text-white px-4 py-3 rounded-lg font-medium transition-colors;
+    background-color: var(--casumo-error);
+  }
+
+  .btn-danger:hover {
+    background-color: #e03c40;
+  }
+
+  /* Labels */
+  .form-label {
+    @apply block mb-2 text-[#444E5D] text-sm font-medium;
+  }
+
+  /* Inputs */
+  .form-input {
+    @apply w-full px-4 py-3 border rounded-lg focus:outline-none;
+  }
+
+  .form-error {
+    @apply text-[var(--casumo-error)] text-sm mt-1;
+  }
+
+  .input-valid {
+    border-color: var(--casumo-success);
+    box-shadow: 0 0 0 2px var(--casumo-success);
+  }
+
+  .input-invalid {
+    border-color: var(--casumo-error);
+    box-shadow: 0 0 0 2px var(--casumo-error);
+  }
+
+  .input-neutral {
+    border-color: #ccc;
+    box-shadow: 0 0 0 2px var(--casumo-purple);
+  }
+}

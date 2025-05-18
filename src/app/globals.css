@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
+  background-color: #f5f7fa;
 }
-
+:root {
+  --casumo-purple: #4C00C2;
+  --casumo-purple-dark: #3B058E;
+  --casumo-error: #FC484C;
+  --casumo-success: #19AC51;
+  --casumo-gray: #798291;
+}

@@ -6,6 +6,7 @@ import CardForm from "./components/CardForm";
 import { CardData } from "./types";
 import useCards from "./hooks/useCards";
 import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 export default function PaymentMethodsPage() {
   const { cards, fetchCards, createCard, updateCard, deleteCard } = useCards();
@@ -22,17 +23,29 @@ export default function PaymentMethodsPage() {
   };
 
   const handleSave = async (card: CardData, index: number | null) => {
-    if (index !== null) {
-      await updateCard(cards[index].id!, card);
-    } else {
-      await createCard(card);
+    try {
+      if (index !== null) {
+        await updateCard(cards[index]?.id!, card);
+      } else {
+        await createCard(card);
+      }
+      setShowForm(false);
+      toast.success("Card saved!");
+    } catch (error) {
+      console.error("Error saving card:", error);
+      toast.error("Failed to save card. Please try again.");
     }
-    setShowForm(false);
   };
 
   const handleDelete = async (index: number) => {
-    await deleteCard(cards[index].id!);
-    setShowForm(false);
+    try {
+      await deleteCard(cards[index]?.id!);
+      setShowForm(false);
+      toast.success("Card deleted!");
+    } catch (error) {
+      console.error("Error deleting card:", error);
+      toast.error("Failed to delete card. Please try again.");
+    }
   };
 
   return (
