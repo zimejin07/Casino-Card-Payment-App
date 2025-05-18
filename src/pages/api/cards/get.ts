@@ -11,6 +11,7 @@ const GET_CARDS = gql`
       expiryDate
       cvv
       cardholderName
+      type
     }
   }
 `

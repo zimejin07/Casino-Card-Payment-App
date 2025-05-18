@@ -1,16 +1,30 @@
 import { CardType } from "@/app/payment-methods/types";
 
-export const cardThemes: Record<CardType, { front: string; back: string }> = {
+export const cardThemes: Record<
+  CardType,
+  {
+    frontGradient: string;
+    backGradient: string;
+    badgeText: string;
+    badgeColor: string;
+  }
+> = {
   basic: {
-    front: "from-[var(--casumo-purple)] to-[var(--casumo-purple-dark)]",
-    back: "from-[#32007E] to-[var(--casumo-purple-dark)]",
+    frontGradient: "from-[#4C00C2] to-[#3B058E]",
+    backGradient: "from-[#32007E] to-[#3B058E]",
+    badgeText: "Basic",
+    badgeColor: "bg-gray-500",
   },
   black: {
-    front: "from-gray-900 to-gray-800",
-    back: "from-black to-gray-800",
+    frontGradient: "from-[#1E1E1E] to-[#2B2B2B]",
+    backGradient: "from-[#111] to-[#222]",
+    badgeText: "Black",
+    badgeColor: "bg-black",
   },
   premium: {
-    front: "from-yellow-400 to-yellow-600",
-    back: "from-yellow-700 to-yellow-800",
+    frontGradient: "from-[#FFD700] to-[#FFA500]",
+    backGradient: "from-[#FFC107] to-[#FF9800]",
+    badgeText: "Premium",
+    badgeColor: "bg-yellow-500",
   },
 };

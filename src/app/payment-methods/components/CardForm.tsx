@@ -8,10 +8,7 @@ import FieldSelect from "./FieldSelect";
 import {CardFormField, cardFormReducer, FieldState,} from "../hooks/cardFormReducer";
 
 type Props = {
-    card: CardData | null;
-    onCancel: () => void;
-    onSave: (data: CardData) => void;
-    onDelete?: () => void;
+    card: CardData | null; onCancel: () => void; onSave: (data: CardData) => void; onDelete?: () => void;
 };
 
 const initialFormState: Record<CardFormField, FieldState> = {
@@ -29,8 +26,7 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
     useEffect(() => {
         if (card) {
             dispatch({
-                type: "SET_ALL_FIELDS",
-                payload: {
+                type: "SET_ALL_FIELDS", payload: {
                     cardNumber: {value: card.cardNumber, valid: null},
                     expiryDate: {value: card.expiryDate, valid: null},
                     cvv: {value: card.cvv, valid: null},
@@ -51,13 +47,9 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
             cardholderName: formState.cardholderName.value.trim().length > 0,
         };
 
-        Object.entries(validations).forEach(([field, isValid]) =>
-            dispatch({
-                type: "VALIDATE_FIELD",
-                field: field as CardFormField,
-                isValid,
-            })
-        );
+        Object.entries(validations).forEach(([field, isValid]) => dispatch({
+            type: "VALIDATE_FIELD", field: field as CardFormField, isValid,
+        }));
 
         const allValid = Object.values(validations).every(Boolean);
         if (!allValid) return;
@@ -66,13 +58,11 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
             cardNumber: formState.cardNumber.value,
             expiryDate: formState.expiryDate.value,
             cvv: formState.cvv.value,
-            cardholderName: formState.cardholderName.value,
-            ...(isEditMode ? {} : {type}),
+            cardholderName: formState.cardholderName.value, ...(isEditMode ? {} : {type}),
         });
     };
 
-    return (
-        <div className="bg-white rounded-2xl shadow-md p-6">
+    return (<div className="bg-white rounded-2xl shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-[#1A212C]">
                     {isEditMode ? "Edit card" : "Add new card"}
@@ -91,13 +81,9 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
                     placeholder="1234 5678 9012 3456"
                     maxLength={19}
                     value={formState.cardNumber.value}
-                    onChange={(e) =>
-                        dispatch({
-                            type: "SET_FIELD",
-                            field: "cardNumber",
-                            value: e.target.value,
-                        })
-                    }
+                    onChange={(e) => dispatch({
+                        type: "SET_FIELD", field: "cardNumber", value: e.target.value,
+                    })}
                     valid={formState.cardNumber.valid}
                     error="Please enter a valid card number"
                 />
@@ -108,13 +94,9 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
                         placeholder="MM/YY"
                         maxLength={5}
                         value={formState.expiryDate.value}
-                        onChange={(e) =>
-                            dispatch({
-                                type: "SET_FIELD",
-                                field: "expiryDate",
-                                value: e.target.value,
-                            })
-                        }
+                        onChange={(e) => dispatch({
+                            type: "SET_FIELD", field: "expiryDate", value: e.target.value,
+                        })}
                         valid={formState.expiryDate.valid}
                         error="Please enter a valid expiry date"
                     />
@@ -125,13 +107,9 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
                         placeholder="123"
                         maxLength={3}
                         value={formState.cvv.value}
-                        onChange={(e) =>
-                            dispatch({
-                                type: "SET_FIELD",
-                                field: "cvv",
-                                value: e.target.value,
-                            })
-                        }
+                        onChange={(e) => dispatch({
+                            type: "SET_FIELD", field: "cvv", value: e.target.value,
+                        })}
                         valid={formState.cvv.valid}
                         error="Please enter a valid CVV"
                     />
@@ -142,36 +120,27 @@ export default function CardForm({card, onCancel, onSave, onDelete}: Props) {
                     placeholder="John Doe"
                     maxLength={40}
                     value={formState.cardholderName.value}
-                    onChange={(e) =>
-                        dispatch({
-                            type: "SET_FIELD",
-                            field: "cardholderName",
-                            value: e.target.value,
-                        })
-                    }
+                    onChange={(e) => dispatch({
+                        type: "SET_FIELD", field: "cardholderName", value: e.target.value,
+                    })}
                     valid={formState.cardholderName.valid}
                     error="Please enter the cardholder name"
                 />
 
-                {!isEditMode && (
-                    <FieldSelect
+                {!isEditMode && (<FieldSelect
                         label="Card type"
                         value={type}
                         onChange={(e) => setType(e.target.value as CardType)}
-                    />
-                )}
+                    />)}
 
                 <div className="grid grid-cols-2 gap-4 pt-4">
-                    {onDelete && (
-                        <button type="button" onClick={onDelete} className="btn-danger">
+                    {onDelete && (<button type="button" onClick={onDelete} className="btn-danger">
                             Delete card
-                        </button>
-                    )}
+                        </button>)}
                     <button type="submit" className="btn-primary">
                         Save
                     </button>
                 </div>
             </form>
-        </div>
-    );
+        </div>);
 }
