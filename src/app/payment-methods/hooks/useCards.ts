@@ -26,36 +26,57 @@ export default function useCards() {
         return;
       }
 
-      await fetchCards();
+      const created = await response.json();
+
+      // Insert new card into local state instantly
+      setCards((prev) => [...prev, { ...card, id: created.id }]);
     } catch (error) {
       console.error(`Network error: ${error}`);
     }
   }
 
   async function updateCard(id: string, card: Partial<CardData>) {
-    const res = await fetch("/api/cards/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, data: card }),
-      cache: "no-store",
-    });
+    try {
+      const res = await fetch("/api/cards/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, data: card }),
+        cache: "no-store",
+      });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err?.error || "Update failed");
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err?.error || "Update failed");
+      }
+
+      // Update card in local state immediately
+      setCards((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, ...card } : c))
+      );
+    } catch (error) {
+      console.error("Failed to update card:", error);
     }
-
-    await fetchCards();
   }
 
   async function deleteCard(id: string) {
-    await fetch("/api/cards/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-      cache: "no-store",
-    });
-    await fetchCards();
+    try {
+      const res = await fetch("/api/cards/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err?.error || "Delete failed");
+      }
+
+      // Remove card from local state immediately
+      setCards((prev) => prev.filter((c) => c.id !== id));
+    } catch (error) {
+      console.error("Failed to delete card:", error);
+    }
   }
 
   return { cards, fetchCards, createCard, updateCard, deleteCard };
