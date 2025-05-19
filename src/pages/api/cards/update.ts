@@ -10,6 +10,14 @@ const UPDATE_CARD = gql`
   }
 `;
 
+const PUBLISH_CARD = gql`
+  mutation PublishCard($id: ID!) {
+    publishCard(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -22,6 +30,11 @@ export default async function handler(
     const result = await serverClient.mutate({
       mutation: UPDATE_CARD,
       variables: { id, data },
+    });
+
+    await serverClient.mutate({
+      mutation: PUBLISH_CARD,
+      variables: { id },
     });
 
     return res.status(200).json(result.data.updateCard);

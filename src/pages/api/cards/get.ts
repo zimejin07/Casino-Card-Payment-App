@@ -1,11 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { gql } from "@apollo/client";
-
 import serverClient from "../../../../lib/serverApolloClient";
 
 const GET_CARDS = gql`
   query GetCards {
-    cards {
+    cards(stage: PUBLISHED) {
       id
       cardNumber
       expiryDate
@@ -23,9 +22,15 @@ export default async function handler(
   if (req.method !== "GET") return res.status(405).end();
 
   try {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+
     const { data } = await serverClient.query({
       query: GET_CARDS,
+      fetchPolicy: "no-cache",
     });
+
     return res.status(200).json(data.cards);
   } catch (err: any) {
     console.error(err);

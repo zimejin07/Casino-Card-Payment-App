@@ -3,27 +3,42 @@ import { gql } from "@apollo/client";
 import serverClient from "../../../../lib/serverApolloClient";
 
 const CREATE_CARD = gql`
-    mutation CreateCard($data: CardCreateInput!) {
-        createCard(data: $data) {
-            id
-        }
+  mutation CreateCard($data: CardCreateInput!) {
+    createCard(data: $data) {
+      id
     }
+  }
+`;
+
+const PUBLISH_CARD = gql`
+  mutation PublishCard($id: ID!) {
+    publishCard(where: { id: $id }) {
+      id
+    }
+  }
 `;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") return res.status(405).end();
+  if (req.method !== "POST") return res.status(405).end();
 
-    try {
-        const createData = req.body;
+  try {
+    const createData = req.body;
 
-        const result = await serverClient.mutate({
-            mutation: CREATE_CARD,
-            variables: { data: createData },
-        });
+    const result = await serverClient.mutate({
+      mutation: CREATE_CARD,
+      variables: { data: createData },
+    });
 
-        return res.status(201).json(result.data.createCard);
-    } catch (err: any) {
-        console.error(err);
-        return res.status(500).json({ error: err.message });
-    }
+    const cardId = result.data.createCard.id;
+
+    await serverClient.mutate({
+      mutation: PUBLISH_CARD,
+      variables: { id: cardId },
+    });
+
+    return res.status(201).json({ id: cardId });
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
 }

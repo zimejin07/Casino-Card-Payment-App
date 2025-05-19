@@ -7,18 +7,29 @@ export default function useCards() {
   const [cards, setCards] = useState<CardData[]>([]);
 
   async function fetchCards() {
-    const res = await fetch("/api/cards/get");
+    const res = await fetch("/api/cards/get", { cache: "no-store" });
     const data = await res.json();
     setCards(data);
   }
 
   async function createCard(card: CardData) {
-    await fetch("/api/cards/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(card),
-    });
-    await fetchCards();
+    try {
+      const response = await fetch("/api/cards/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(card),
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        console.error(`Failed to create card: ${response.statusText}`);
+        return;
+      }
+
+      await fetchCards();
+    } catch (error) {
+      console.error(`Network error: ${error}`);
+    }
   }
 
   async function updateCard(id: string, card: Partial<CardData>) {
@@ -26,6 +37,7 @@ export default function useCards() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, data: card }),
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -41,6 +53,7 @@ export default function useCards() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
+      cache: "no-store",
     });
     await fetchCards();
   }
