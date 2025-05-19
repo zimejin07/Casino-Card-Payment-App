@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       mutation: DELETE_CARD,
       variables: { id },
     });
-
+ console.log("result of call:delete", result);
     return res.status(200).json(result.data.deleteCard);
   } catch (err: any) {
     console.error(err);

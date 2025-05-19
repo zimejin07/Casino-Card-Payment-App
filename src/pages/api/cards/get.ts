@@ -23,7 +23,9 @@ export default async function handler(
   if (req.method !== "GET") return res.status(405).end();
 
   try {
-    const { data } = await serverClient.query({ query: GET_CARDS });
+    const { data } = await serverClient.query({
+      query: GET_CARDS,
+    });
     return res.status(200).json(data.cards);
   } catch (err: any) {
     console.error(err);

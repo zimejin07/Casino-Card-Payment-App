@@ -41,9 +41,9 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
       dispatch({
         type: "SET_ALL_FIELDS",
         payload: {
-          cardNumber: { value: card.cardNumber, valid: null },
-          expiryDate: { value: card.expiryDate, valid: null },
-          cvv: { value: card.cvv, valid: null },
+          cardNumber: { value: formatCardNumber(card.cardNumber), valid: null },
+          expiryDate: { value: formatExpiryDate(card.expiryDate), valid: null },
+          cvv: { value: String(card.cvv), valid: null },
           cardholderName: { value: card.cardholderName, valid: null },
         },
       });
@@ -72,13 +72,15 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
     const allValid = Object.values(validations).every(Boolean);
     if (!allValid) return;
 
-    onSave({
-      cardNumber: formState.cardNumber.value,
+    const sanitizedData: CardData = {
+      cardNumber: formState.cardNumber.value.replace(/\s+/g, ""),
       expiryDate: formState.expiryDate.value,
-      cvv: formState.cvv.value,
+      cvv: String(formState.cvv.value),
       cardholderName: formState.cardholderName.value,
       ...(isEditMode ? {} : { type }),
-    });
+    };
+
+    onSave(sanitizedData);
   };
 
   return (
@@ -100,7 +102,7 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
           label="Card number"
           placeholder="1234 5678 9012 3456"
           maxLength={19}
-          value={formatCardNumber(formState.cardNumber.value)}
+          value={formState.cardNumber.value}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -117,7 +119,7 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
             label="Expiry date"
             placeholder="MM/YY"
             maxLength={5}
-            value={formatExpiryDate(formState.expiryDate.value)}
+            value={formState.expiryDate.value}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",

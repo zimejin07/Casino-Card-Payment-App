@@ -21,12 +21,18 @@ export default function useCards() {
     await fetchCards();
   }
 
-  async function updateCard(id: string, card: CardData) {
-    await fetch("/api/cards/update", {
+  async function updateCard(id: string, card: Partial<CardData>) {
+    const res = await fetch("/api/cards/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, ...card }),
+      body: JSON.stringify({ id, data: card }),
     });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err?.error || "Update failed");
+    }
+
     await fetchCards();
   }
 
