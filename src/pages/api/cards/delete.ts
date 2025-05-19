@@ -2,14 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { gql } from "@apollo/client";
 import serverClient from "../../../../lib/serverApolloClient";
 
-const UNPUBLISH_CARD = gql`
-  mutation UnpublishCard($id: ID!) {
-    unpublishCard(where: { id: $id }) {
-      id
-    }
-  }
-`;
-
 const DELETE_CARD = gql`
   mutation DeleteCard($id: ID!) {
     deleteCard(where: { id: $id }) {
@@ -27,19 +19,23 @@ export default async function handler(
   try {
     const { id } = req.body;
 
-    await serverClient.mutate({
-      mutation: UNPUBLISH_CARD,
-      variables: { id },
-    });
+    console.log("Received delete request for ID:", id);
 
     const result = await serverClient.mutate({
       mutation: DELETE_CARD,
       variables: { id },
     });
 
-    return res.status(200).json(result.data.deleteCard);
+    const deletedCard = result.data?.deleteCard;
+
+    if (!deletedCard?.id) {
+      console.error("Delete mutation returned no data");
+      return res.status(500).json({ error: "Delete failed: no card returned" });
+    }
+
+    return res.status(200).json({ id: deletedCard.id });
   } catch (err: any) {
-    console.error(err);
+    console.error("Delete API error:", err);
     return res.status(500).json({ error: err.message });
   }
 }
