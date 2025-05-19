@@ -3,6 +3,14 @@
 import { cardThemes } from "../../../../lib/cardThemes";
 import { CardData } from "../types";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCcVisa,
+  faCcMastercard,
+  faCcAmex,
+  faCcDiscover,
+} from "@fortawesome/free-brands-svg-icons";
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   card: CardData;
@@ -11,14 +19,19 @@ type Props = {
 };
 
 const getCardBrandIcon = (cardNumber: string) => {
-  if (/^4/.test(cardNumber)) return <i className="fab fa-cc-visa text-2xl" />;
+  if (/^4/.test(cardNumber))
+    return <FontAwesomeIcon icon={faCcVisa} className="text-2xl" />;
+
   if (/^5[1-5]/.test(cardNumber))
-    return <i className="fab fa-cc-mastercard text-2xl" />;
+    return <FontAwesomeIcon icon={faCcMastercard} className="text-2xl" />;
+
   if (/^3[47]/.test(cardNumber))
-    return <i className="fab fa-cc-amex text-2xl" />;
+    return <FontAwesomeIcon icon={faCcAmex} className="text-2xl" />;
+
   if (/^6(?:011|5)/.test(cardNumber))
-    return <i className="fab fa-cc-discover text-2xl" />;
-  return <i className="far fa-credit-card text-2xl" />;
+    return <FontAwesomeIcon icon={faCcDiscover} className="text-2xl" />;
+
+  return <FontAwesomeIcon icon={faCreditCard} className="text-2xl" />;
 };
 
 export default function CardItem({ card, onClick, index }: Props) {
