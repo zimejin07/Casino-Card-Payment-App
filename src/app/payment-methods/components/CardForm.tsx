@@ -6,6 +6,8 @@ import {
   validateCardNumber,
   validateExpiryDate,
   validateCVV,
+  formatCardNumber,
+  formatExpiryDate,
 } from "../utils/validation";
 import FieldInput from "./FieldInput";
 import FieldSelect from "./FieldSelect";
@@ -98,12 +100,12 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
           label="Card number"
           placeholder="1234 5678 9012 3456"
           maxLength={19}
-          value={formState.cardNumber.value}
+          value={formatCardNumber(formState.cardNumber.value)}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
               field: "cardNumber",
-              value: e.target.value,
+              value: formatCardNumber(e.target.value),
             })
           }
           valid={formState.cardNumber.valid}
@@ -115,12 +117,12 @@ export default function CardForm({ card, onCancel, onSave, onDelete }: Props) {
             label="Expiry date"
             placeholder="MM/YY"
             maxLength={5}
-            value={formState.expiryDate.value}
+            value={formatExpiryDate(formState.expiryDate.value)}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",
                 field: "expiryDate",
-                value: e.target.value,
+                value: formatExpiryDate(e.target.value),
               })
             }
             valid={formState.expiryDate.valid}

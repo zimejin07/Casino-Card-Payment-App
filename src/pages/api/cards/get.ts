@@ -1,6 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { gql } from "@apollo/client";
+
 import serverClient from "../../../../lib/serverApolloClient";
-import { GET_CARDS } from "@/app/payment-methods/graphql/queries";
+
+const GET_CARDS = gql`
+  query GetCards {
+    cards {
+      id
+      cardNumber
+      expiryDate
+      cvv
+      cardholderName
+      type
+    }
+  }
+`;
 
 export default async function handler(
   req: NextApiRequest,
