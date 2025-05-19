@@ -6,7 +6,7 @@ import CardForm from "./components/CardForm";
 import { CardData } from "./types";
 import useCards from "./hooks/useCards";
 import { AnimatePresence, motion } from "framer-motion";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export default function PaymentMethodsPage() {
   const { cards, fetchCards, createCard, updateCard, deleteCard } = useCards();
@@ -49,7 +49,6 @@ export default function PaymentMethodsPage() {
     }
   };
 
-  // Close modal with ESC key
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
       setShowForm(false);
