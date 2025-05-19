@@ -7,10 +7,8 @@ export default function useCards() {
   const [cards, setCards] = useState<CardData[]>([]);
 
   async function fetchCards() {
-    console.log("fetching cards");
     const res = await fetch("/api/cards/get");
     const data = await res.json();
-    console.log(data);
     setCards(data);
   }
 
