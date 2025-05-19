@@ -1,6 +1,6 @@
 "use client";
 
-import { cardThemes } from "@/lib/card-themes/cardThemes";
+import { cardThemes } from "../../../../lib/cardThemes";
 import { CardData } from "../types";
 import { motion } from "framer-motion";
 

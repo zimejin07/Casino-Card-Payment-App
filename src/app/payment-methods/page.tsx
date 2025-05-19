@@ -29,6 +29,7 @@ export default function PaymentMethodsPage() {
       } else {
         await createCard(card);
       }
+
       setShowForm(false);
       toast.success("Card saved!");
     } catch (error) {

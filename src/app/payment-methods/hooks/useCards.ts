@@ -28,7 +28,6 @@ export default function useCards() {
 
       const created = await response.json();
 
-      // Insert new card into local state instantly
       setCards((prev) => [...prev, { ...card, id: created.id }]);
     } catch (error) {
       console.error(`Network error: ${error}`);
@@ -49,7 +48,6 @@ export default function useCards() {
         throw new Error(err?.error || "Update failed");
       }
 
-      // Update card in local state immediately
       setCards((prev) =>
         prev.map((c) => (c.id === id ? { ...c, ...card } : c))
       );
@@ -59,20 +57,22 @@ export default function useCards() {
   }
 
   async function deleteCard(id: string) {
+    console.log("raw", id);
     try {
-      const res = await fetch("/api/cards/delete", {
+      const res = await fetch(`/api/cards/delete`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
         cache: "no-store",
       });
 
+      console.log("the id payload", JSON.stringify({ id }));
+
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err?.error || "Delete failed");
       }
 
-      // Remove card from local state immediately
       setCards((prev) => prev.filter((c) => c.id !== id));
     } catch (error) {
       console.error("Failed to delete card:", error);
