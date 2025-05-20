@@ -1,6 +1,6 @@
-# 💳 Casumo Payment Methods App
+# 💳 Casino Payment Methods App
 
-A small React + Next.js app for managing bank cards, built for the **Casumo Frontend Engineer Technical Assessment**.
+A small React + Next.js app for managing bank cards.
 
 ---
 
