@@ -9,16 +9,6 @@
     "lint": "next lint",
     "test": "jest"
   },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ]
-  },
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
