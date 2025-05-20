@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💳 Casumo Payment Methods App
 
-## Getting Started
+A small React + Next.js app for managing bank cards, built for the **Casumo Frontend Engineer Technical Assessment**.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- Add, edit, and delete payment cards
+- Form validation with UI feedback for error/success
+- Full support for:
+    - Cardholder name
+    - Card number
+    - Expiry date
+    - CVV
+    - Card type (basic, black, premium)
+- Fully functional responsive UI using TailwindCSS
+- Uses `useReducer` for form state
+- No backend — local state persistence
+
+---
+
+## 🧠 Design Considerations
+
+- **Componentization**: Modular structure (`CardItem`, `CardForm`, `CardList`, etc.)
+- **State Management**: Minimal global state, primarily `useReducer` and prop drilling
+- **Validation**: Pure validation utils for maintainability
+- **UI/UX**: Matches Casumo design system (spacing, typography, colors)
+
+---
+
+## 🔬 Testing Strategy
+
+Tests written using:
+
+- `@testing-library/react`
+- `jest`
+- Custom mock hooks
+
+We created safe, minimal tests for:
+
+- Card rendering and click handling
+- Form rendering and validation
+- Page interaction: opening form modal, fetching cards
+
+### ✅ Passed test suites:
+
+- `CardForm.test.tsx`
+- `CardItem.test.tsx`
+- `CardList.test.tsx`
+- `PaymentMethodsPage.test.tsx`
+
+### 📋 Coverage Summary:
+
+We focused on interaction paths and key render assertions. Full unit test coverage was not prioritized due to time constraints.
+
+---
+
+## ⚠️ Known Limitations
+
+- ⚠️ **Types**: Some `any`/loose types exist for speed.
+- ⚠️ **No SSR**: Not optimized for SEO or SSR deployment.
+- ⚠️ **Not fully production-ready**: Skipped extensive validation logic & data layer abstraction.
+- ⚠️ **No persistent storage**: All card data is lost on page refresh (by design for this task).
+- ⚠️ **No mobile testing**: Responsive layout tested, but not on physical devices.
+- ⚠️ **No build-time optimization**: Running dev version inside Docker due to runtime type issues.
+
+---
+
+## 🐳 Docker Support
+
+This app is Dockerized to run the **development server** inside a container.
+
+### ✅ To Run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Build image
+docker build -t casumo-payment-app .
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run container on port 3001 (in case 3000 is taken)
+docker run -p 3001:3000 casumo-payment-app

@@ -14,7 +14,7 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY . .
 
 # Expose port 3000
-EXPOSE 4000
+EXPOSE 3000
 
 # Command to run the Next.js application
 CMD ["pnpm", "next", "dev"]
