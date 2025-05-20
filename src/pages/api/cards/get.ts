@@ -32,8 +32,8 @@ export default async function handler(
     });
 
     return res.status(200).json(data.cards);
-  } catch (err: any) {
-    console.error(err);
+  } catch (error) {
+    const err = error as any;
     return res.status(500).json({ error: err.message });
   }
 }

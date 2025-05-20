@@ -37,7 +37,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     return res.status(201).json({ id: cardId });
-  } catch (err: any) {
+  } catch (error) {
+    const err = error as any;
     console.error(err);
     return res.status(500).json({ error: err.message });
   }

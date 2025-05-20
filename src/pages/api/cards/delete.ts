@@ -52,7 +52,8 @@ export default async function handler(
       id: deletedCard.id,
       message: `Card with ID "${deletedCard.id}" deleted successfully`,
     });
-  } catch (err: any) {
+  } catch (error) {
+    const err = error as any;
     console.error("Delete API exception occurred:", err.message);
     console.debug("Exception stack trace:", err.stack);
     return res.status(500).json({ error: err.message });

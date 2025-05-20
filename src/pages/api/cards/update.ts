@@ -38,7 +38,8 @@ export default async function handler(
     });
 
     return res.status(200).json(result.data.updateCard);
-  } catch (err: any) {
+  } catch (error) {
+    const err = error as any;
     console.error("GraphQL update error:", JSON.stringify(err, null, 2));
     return res.status(500).json({ error: err.message });
   }

@@ -1,18 +1,20 @@
-# Dockerfile
-FROM node:20-alpine
+# Use official Node.js runtime as the base image
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY package*.json ./
-RUN npm install
+# Copy package.json and pnpm-lock.yaml (if exists) to the container
+COPY package.json pnpm-lock.yaml* ./
 
-# Copy app source
+# Install dependencies using pnpm
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+# Copy only necessary files for production
 COPY . .
 
-# Expose port
-EXPOSE 3000
+# Expose port 3000
+EXPOSE 4000
 
-# Run Next.js app
-CMD ["npm", "run", "dev"]
+# Command to run the Next.js application
+CMD ["pnpm", "next", "dev"]

@@ -15,7 +15,7 @@ export default function PaymentMethodsPage() {
 
   useEffect(() => {
     fetchCards();
-  }, []);
+  }, [fetchCards]);
 
   const handleAdd = () => {
     setEditingIndex(null);
