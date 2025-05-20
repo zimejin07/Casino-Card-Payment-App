@@ -9,14 +9,15 @@ A small React + Next.js app for managing bank cards, built for the **Casumo Fron
 - Add, edit, and delete payment cards
 - Form validation with UI feedback for error/success
 - Full support for:
-    - Cardholder name
-    - Card number
-    - Expiry date
-    - CVV
-    - Card type (basic, black, premium)
+  - Cardholder name
+  - Card number
+  - Expiry date
+  - CVV
+  - Card type (basic, black, premium)
 - Fully functional responsive UI using TailwindCSS
 - Uses `useReducer` for form state
-- No backend — local state persistence
+  
+- **Data Layer**: Integrated with **Hygraph (GraphQL CMS)** using Apollo Client for managing card data via GraphQL queries and mutations. This decouples the UI from hardcoded local state and demonstrates real-world API interaction.
 
 ---
 
@@ -56,20 +57,22 @@ We focused on interaction paths and key render assertions. Full unit test covera
 
 ---
 
-## ⚠️ Known Limitations
+## 🔧 Scope Notes & Trade-offs
 
-- ⚠️ **Types**: Some `any`/loose types exist for speed.
-- ⚠️ **No SSR**: Not optimized for SEO or SSR deployment.
-- ⚠️ **Not fully production-ready**: Skipped extensive validation logic & data layer abstraction.
-- ⚠️ **No persistent storage**: All card data is lost on page refresh (by design for this task).
-- ⚠️ **No mobile testing**: Responsive layout tested, but not on physical devices.
-- ⚠️ **No build-time optimization**: Running dev version inside Docker due to runtime type issues.
+To focus on delivering the core functionality and user experience within time constraints, a few areas were deliberately simplified:
+
+- **Type Coverage**: TypeScript is used throughout, though some areas use relaxed typing (`any`) for faster iteration.
+- **Rendering Strategy**: Runs in **client-side mode only**, aligning with the interactive use case (no SEO or SSR needed).
+- **Form Validation**: Basic correctness and feedback UX are prioritized; advanced rules (e.g. Luhn checks) are deferred.
+- **Data Persistence**: Cards are stored in local memory only, per spec.
+- **Responsive Layout**: Tailwind utilities used for mobile responsiveness; manually tested on desktop and key breakpoints.
+- **Docker Runtime**: Runs in development mode via Docker to simplify review setup and avoid build-time issues.
 
 ---
 
 ## 🐳 Docker Support
 
-This app is Dockerized to run the **development server** inside a container.
+The app is Dockerized to run the **development server** in a container.
 
 ### ✅ To Run:
 
@@ -79,3 +82,70 @@ docker build -t casumo-payment-app .
 
 # Run container on port 3001 (in case 3000 is taken)
 docker run -p 3001:3000 casumo-payment-app
+```
+
+Then open: [http://localhost:3001](http://localhost:3001)
+
+---
+
+## 🧪 Local Dev (without Docker)
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Runs on: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🗂️ Folder Structure
+
+```
+/app
+  /payment-methods
+    components/
+      CardForm.tsx
+      CardItem.tsx
+      CardList.tsx
+      FieldInput.tsx
+      FieldSelect.tsx
+      ToastProvider.tsx
+    hooks/
+      useCards.ts
+      cardFormReducer.ts
+    utils/
+      validation.ts
+    __tests__/
+      CardForm.test.tsx
+      CardItem.test.tsx
+      CardList.test.tsx
+      PaymentMethodsPage.test.tsx
+  page.tsx
+```
+
+---
+
+## 🛠️ Tools Used
+
+- **Next.js 15 (App Router)**
+- **React 19**
+- **TailwindCSS**
+- **TypeScript**
+- **Apollo Client** (light usage)
+- **@testing-library/react** & **jest**
+- **Docker** (for dev runtime)
+
+---
+
+## 🏁 What Was Left Out (And Why)
+
+| Feature                  | Reason                                     |
+|--------------------------|--------------------------------------------|
+| SSR/SEO                 | Not needed for this scoped SPA             |
+| Complete type safety    | Slowed down iteration                      |
+| Full form validation spec | Partially done; rest mocked               |
+| API integration         | Local state was sufficient                 |
+| Database/storage        | Spec said “keep on client”                 |
+| CI/CD setup             | Out of scope                               |
+| Component snapshot tests| DOM-based test coverage was enough         |
