@@ -144,8 +144,4 @@ Runs on: [http://localhost:3000](http://localhost:3000)
 |--------------------------|--------------------------------------------|
 | SSR/SEO                 | Not needed for this scoped SPA             |
 | Complete type safety    | Slowed down iteration                      |
-| Full form validation spec | Partially done; rest mocked               |
-| API integration         | Local state was sufficient                 |
-| Database/storage        | Spec said “keep on client”                 |
 | CI/CD setup             | Out of scope                               |
-| Component snapshot tests| DOM-based test coverage was enough         |
