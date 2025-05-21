@@ -63,7 +63,7 @@ export default function PaymentMethodsPage() {
   }, [showForm, handleKeyDown]);
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] px-4 py-8 max-w-4xl mx-auto font-sans">
+    <div className="min-h-screen bg-page-pattern bg-cover bg-no-repeat bg-top px-4 py-8 max-w-4xl mx-auto font-sans">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-start sm:items-center gap-4">
           <img
