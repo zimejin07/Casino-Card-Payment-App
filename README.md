@@ -6,6 +6,11 @@ A React + Next.js (App Router) web application to manage bank cards.
 
 ---
 
+<p align="center">
+  <img src="/public/preview.png" alt="App Preview" width="300" />
+</p>
+
+
 ## 🚀 Features
 
 - ✅ Add / Edit / Delete payment cards
