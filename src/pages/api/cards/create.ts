@@ -18,7 +18,10 @@ const PUBLISH_CARD = gql`
   }
 `;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") return res.status(405).end();
 
   try {
@@ -37,9 +40,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     return res.status(201).json({ id: cardId });
-  } catch (error) {
-    const err = error as any;
-    console.error(err);
-    return res.status(500).json({ error: err.message });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    // Fallback for truly unknown errors
+    console.error("Unexpected error", error);
+    return res.status(500).json({ error: "Unexpected server error" });
   }
 }
