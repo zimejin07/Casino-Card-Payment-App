@@ -92,7 +92,7 @@ docker run -p 3001:3000 casumo-payment-app
 
 👉 App available at: [http://localhost:3001](http://localhost:3001)
 
-> ⚠️ Runs in **development mode** inside Docker to avoid runtime type conflicts and ensure a consistent review experience.
+> ⚠️ Runs in **development mode** inside Docker to ensure an easy deployment and consistent review experience.
 
 ---
 
@@ -138,7 +138,6 @@ The `.env.local` file includes the public Hygraph API endpoint.
 
 | Area                   | Status     | Notes                                           |
 |------------------------|------------|-------------------------------------------------|
-| Type safety            | Partial    | Some `any` types used for speed                 |
 | SSR / SEO              | ❌         | Not necessary for this SPA                      |
 | Advanced validation    | ❌         | Luhn check skipped for simplicity               |
 | CI/CD                  | ❌         | Not part of the assessment scope                |
