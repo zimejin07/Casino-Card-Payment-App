@@ -2,8 +2,6 @@
 
 A React + Next.js (App Router) web application to manage bank cards.
 
-> Developed for Casumo’s Frontend Engineer Technical Assessment, emphasizing state management, component composition, and user interaction.
-
 ---
 
 <p align="center">
