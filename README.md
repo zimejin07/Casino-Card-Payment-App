@@ -109,7 +109,7 @@ pnpm dev
 
 The `.env.local` file includes the public Hygraph API endpoint.
 
-> ⚠️ Typically, `.env` files are git-ignored. This file is included intentionally to ensure out-of-the-box functionality during assessment.
+> ⚠️ Typically, `.env` files are git-ignored. This file is included intentionally to ensure out-of-the-box functionality.
 
 ---
 
