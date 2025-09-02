@@ -138,7 +138,7 @@ The `.env.local` file includes the public Hygraph API endpoint.
 |------------------------|------------|-------------------------------------------------|
 | SSR / SEO              | ❌         | Not necessary for this SPA                      |
 | Advanced validation    | ❌         | Luhn check skipped for simplicity               |
-| CI/CD                  | ❌         | Not part of the assessment scope                |
+| CI/CD                  | ❌         | Out of scope                |
 | Auth                   | ❌         | Not required                                    |
 | Hygraph auth fallback  | ✅         | Ensures continuity when token expires           |
 
