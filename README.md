@@ -146,9 +146,9 @@ The `.env.local` file includes the public Hygraph API endpoint.
 
 ## 📝 Final Notes
 
-This app was built with clarity, interactivity, and developer experience as top priorities, under tight time constraints.
+This app was built with clarity, interactivity, and developer experience as top priorities, 
 
-> While certain features were simplified, the core logic, architecture, and DX best practices adhere to production-grade standards.
+While certain features were simplified, the core logic, architecture, and DX best practices adhere to production-grade standards.
 
 ---
 
